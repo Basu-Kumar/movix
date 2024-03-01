@@ -1,8 +1,18 @@
-import "./App.css";
+// import "./App.css";
 import { useEffect } from "react";
 import { fetchDataFromApi } from "./utils/api";
 import { useSelector, useDispatch } from "react-redux";
 import { getApiConfiguration } from "./store/homeSlice";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import Home from "./pages/home/Home";
+import SearchResult from "./pages/searchResult/SearchResult";
+import Explore from "./pages/explore/Explore";
+import Details from "./pages/details/Details";
+import PageNotFound from "./pages/404/PageNotFound";
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,9 +33,17 @@ function App() {
 
   return (
     <div className="App">
-      App
-      {/* ? is optional chaining i.e. if there is any delay in API call results then prog will wait*/}
-      {url?.total_pages}
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search/:querry" element={<SearchResult />} />
+          <Route path="/explore/:mediaType" element={<Explore />} />
+          <Route path="/:mediaType/:id" element={<Details />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 }
