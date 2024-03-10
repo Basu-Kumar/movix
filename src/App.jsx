@@ -17,24 +17,28 @@ import Footer from "./components/footer/Footer";
 function App() {
   const dispatch = useDispatch();
 
-  // the (state) contains all the states of homeSLice(here url and genres)
-  const { url } = useSelector((state) => state.home);
-
   useEffect(() => {
-    const apiTesting = () => {
-      fetchDataFromApi("/movie/popular").then((res) => {
+    const fetchApiConfig = () => {
+      fetchDataFromApi("/configuration").then((res) => {
         console.log(res);
-        dispatch(getApiConfiguration(res));
+
+        const url = {
+          backdrop: res.images.secure_base_url + "original",
+          poster: res.images.secure_base_url + "original",
+          profile: res.images.secure_base_url + "original",
+        };
+
+        dispatch(getApiConfiguration(url));
       });
     };
 
-    apiTesting();
+    fetchApiConfig();
   }, [dispatch]);
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
+        {/* <Header /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search/:querry" element={<SearchResult />} />
@@ -42,7 +46,7 @@ function App() {
           <Route path="/:mediaType/:id" element={<Details />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
     </div>
   );
