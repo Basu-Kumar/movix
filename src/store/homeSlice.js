@@ -11,7 +11,7 @@ export const homeSlice = createSlice({
       state.url = actions.payload;
     },
     getGenres: (state, actions) => {
-      state.url = actions.payload;
+      state.genres = actions.payload;
     },
   },
 });
