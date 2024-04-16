@@ -14,7 +14,6 @@ const HeroBanner = () => {
   const navigate = useNavigate();
 
   const { data, loading } = useFetch("/movie/upcoming");
-  console.log(data);
 
   const { url } = useSelector((state) => state.home);
 
@@ -23,6 +22,7 @@ const HeroBanner = () => {
       url.backdrop +
       data?.results?.[Math.floor(Math.random() * 20)]?.backdrop_path;
     setBackground(bg);
+    console.log(bg);
   }, [data, url]);
 
   const searchQueryHandler = (event) => {
