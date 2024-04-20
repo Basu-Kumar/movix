@@ -32,7 +32,7 @@ const SearchResult = () => {
   }, [query]);
 
   const fetchNextPageData = () => {
-    fetchDataFromApi(`/search/multi?query=query&page=${pageNum}`).then(
+    fetchDataFromApi(`/search/multi?query=${query}&page=${pageNum}`).then(
       (res) => {
         if (data?.results) {
           setData({
