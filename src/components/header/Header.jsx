@@ -3,9 +3,9 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { SlMenu } from "react-icons/sl";
 import { VscChromeClose } from "react-icons/vsc";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 import "./style.scss";
-
+import { getQuery } from "../../store/homeSlice";
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import logo from "../../assets/movix-logo.svg";
 
@@ -13,10 +13,11 @@ const Header = () => {
   const [show, setShow] = useState("top");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const openMobileMenu = () => {
     setMobileMenu(true);
@@ -30,6 +31,8 @@ const Header = () => {
 
   const searchQueryHandler = (event) => {
     if (event.key === "Enter" && query.length > 0) {
+      console.log(query);
+      dispatch(getQuery(query));
       navigate(`/search/${query}`);
 
       setTimeout(() => {
@@ -133,6 +136,7 @@ const Header = () => {
                 placeholder="Search for a movie or tv show...."
                 onChange={(e) => {
                   setQuery(e.target.value);
+                  console.log(query);
                 }}
                 onKeyUp={searchQueryHandler}
               />

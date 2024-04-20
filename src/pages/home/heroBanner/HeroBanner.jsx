@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getQuery } from "../../../store/homeSlice";
 import "./style.scss";
 import useFetch from "../../../hooks/useFetch";
 
@@ -12,7 +14,7 @@ const HeroBanner = () => {
   const [background, setBackground] = useState("");
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const { data, loading } = useFetch("/movie/upcoming");
 
   const { url } = useSelector((state) => state.home);
@@ -22,11 +24,12 @@ const HeroBanner = () => {
       url.backdrop +
       data?.results?.[Math.floor(Math.random() * 20)]?.backdrop_path;
     setBackground(bg);
-    console.log(bg);
   }, [data, url]);
 
   const searchQueryHandler = (event) => {
     if (event.key === "Enter" && query.length > 0) {
+      console.log(query);
+      dispatch(getQuery(query));
       navigate(`/search/${query}`);
     }
   };
